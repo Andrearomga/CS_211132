@@ -1,11 +1,15 @@
 import { Router } from 'express';
 import { success } from '../../../network/response.js';
-import  getConnection  from '../../../model/db.js';
+import  {getData}  from '../../../model/db.js';
+import { getUser } from '../../../model/Users.js';
 
 const router = Router();
 
 
+
+
 router.get('/success1', async function(req,res){
+    
     const client = await getConnection();
 
     const query_request = {
@@ -20,7 +24,7 @@ router.get('/success1', async function(req,res){
 })
 
 router.post('/register', async function (req,res){
-    const client = await getConnection();
+    const client = await getData();
 
     let username = req.query.username;
     let email = req.query.email;
@@ -74,6 +78,16 @@ router.patch('/update', async function(req,res){
     .catch((e) => {
       success(req, res, e, 200);
     });
+});
+
+router.get('/all_users_orm', async function(req,res){
+    getUser.findAll({attributes: ['username','email','password','phone_number']})
+    .then(users=>{
+        res.send(users)
+    })
+    .catch(err=>{
+        console.log(err)
+    })
 });
 
 
