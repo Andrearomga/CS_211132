@@ -2,12 +2,12 @@
   "name": "servidor",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": " nodemon ./api/index.js",
-    "inicio": "node ./api/index.js",
-    "dev": "node ./api/index.js"
+    "test": " nodemon app.js",
+    "inicio": "node app.js",
+    "dev": "node app.js"
   },
   "author": "Andrea",
   "license": "ISC",
@@ -22,5 +22,8 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.16"
+  },
+  "engines": {
+    "node": "14.18.0"
   }
 }

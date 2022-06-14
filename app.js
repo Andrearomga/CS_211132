@@ -1,8 +1,7 @@
 //funcionalidades de expres para levantar los proyectos
 import express from 'express';
-import { api } from '../config.js';
-//import { route } from './components/user/network';
-import user from './components/user/network.js';
+import { api } from './config.js';
+import user from './api/components/user/network.js';
 
 const app = express();
 
@@ -10,5 +9,5 @@ const app = express();
 app.use('/api/user', user);
 //servidor activo
 app.listen(api.port, () => {
-    console.log('server running on port :',api.port);
+    console.log('server running on port :', api.port);
 });
