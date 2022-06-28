@@ -1,10 +1,9 @@
-import { getData } from './db.js';
-import { DataTypes } from 'sequelize';
-import bcrypt from 'bcrypt';
-import { getProfile } from './Profile.js';
-import { getpadre } from './padre.js';
+import { getData } from "./db.js";
+import { DataTypes } from "sequelize";
+import bcrpty from 'bcrypt';
 
-const User = getData.sequelizeClient.define('cat_users', {
+
+const Profile = getData.sequelizeClient.define('cat_profiles', {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -44,14 +43,8 @@ const User = getData.sequelizeClient.define('cat_users', {
         }
     }
 
-
 });
 
-User.hasMany(getpadre,{
-    foreignKey: 'catUserId'
 
-});
-getpadre.belongsTo(User);
 
-export const getUser = User;
-
+export const getProfile = Profile;

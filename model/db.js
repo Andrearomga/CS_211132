@@ -1,44 +1,59 @@
-import pkg from 'pg';
 import Sequelize from 'sequelize';
-const { Pool } = pkg;
-import { db } from '../config.js';
+import path from 'path';
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { db } from '../config/config.js';
 
-async function getConnection() {
+const __filename = fileURLToPath(import.meta.url);
 
-    const pool = new Pool({
-        user: db.user,
-        host: db.host,
-        database: db.database,
-        password: db.password,
-        port: db.port,
-    });
-    await pool.connect();
-    return pool;
+const __dirname = path.dirname(__filename);
 
-
-}
-
-
-const sequelizeClient = new Sequelize(db.database, db.user, db.password, {
-    dialectOptions:{
-        ssl: {
-            require: true,
-            rejectUnauthorized:false
-        }
-    },
-    host: db.host,
-    dialect: 'postgres',
+const data = dotenv.config({
+    path: path.resolve(__dirname, `../environments/.env.${process.env.NODE_ENV}`)
 });
 
-sequelizeClient.authenticate()
+const sequelizeClient = (() => {
+    switch (process.env.NODE_ENV) {
+        case 'development':
+            return new Sequelize(db.database, db.user, db.password, {
+                host: db.host,
+                dialect: 'postgres',
+            });
+
+        case 'test':
+            return new Sequelize(db.database, db.user, db.password, {
+                dialectOptions: {
+                    ssl: {
+                        require: true,
+                        rejectUnauthorized: false
+                    }
+                },
+                host: db.host,
+                dialect: 'postgres',
+            });
+
+        default:
+            return new Sequelize(db.database, db.user, db.password, {
+                dialectOptions: {
+                    ssl: {
+                        require: true,
+                    }
+                },
+                host: db.host,
+                dialect: 'postgres',
+            });
+    }
+})()
+
+sequelizeClient.sync({alter:true})
     .then(() => {
         console.log('Conectado')
     })
     .catch((er) => {
-        console.log('No se conecto',er)
+        console.log('No se conecto', er)
     });
 
-export const getData = { getConnection, sequelizeClient };
+export const getData = { sequelizeClient };
 
 
 
