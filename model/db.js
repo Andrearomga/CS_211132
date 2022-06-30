@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize';
 import { db } from '../config/config.js';
 
+
 const sequelizeClient = (() => {
     switch (process.env.NODE_ENV) {
         case 'development':
