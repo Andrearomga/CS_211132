@@ -58,7 +58,7 @@ router.delete('/padre_delete', async function (req, res) {
     getpadre.destroy({
         where: { id: id }
     }).then(() => {
-        res.send('padre eliminado')
+        res.send()
     })
 });
 

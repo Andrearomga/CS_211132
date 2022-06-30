@@ -1,7 +1,6 @@
 import { getData } from './db.js';
 import { DataTypes } from 'sequelize';
 import bcrypt from 'bcrypt';
-import { getProfile } from './Profile.js';
 import { getpadre } from './padre.js';
 
 const User = getData.sequelizeClient.define('cat_users', {
@@ -12,10 +11,6 @@ const User = getData.sequelizeClient.define('cat_users', {
         primaryKey: true
     },
     name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    lastName: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -34,12 +29,12 @@ const User = getData.sequelizeClient.define('cat_users', {
     phone_number: DataTypes.STRING,
 
 }, {
-    tableName: 'cat_profiles',
+    tableName: 'cat_users',
     freezeTableName: true,
     hooks: {
         beforeCreate: (user, options) => {
             {
-                user.password = user.password && user.password != "" ? bcrpty.hashSync(user.password, 10) : "";
+                user.password = user.password && user.password != "" ? bcrypt.hashSync(user.password,10) : "";
             }
         }
     }

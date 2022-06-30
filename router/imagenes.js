@@ -37,13 +37,13 @@ router.get('/get_all', async function (req, res) {
             console.log(err)
         })
 });
-router.delete('/destroy_image_orm', async function (req, res) {
+router.delete('/delete', async function (req, res) {
         let id = req.query.id
 
      getimg.destroy({
          where: { id: id }
      }).then(() => {
-         res.send('imagen eliminado')
+         res.send()
      })
 });
 

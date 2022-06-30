@@ -32,4 +32,33 @@ router.post('/insert', async function (req, res) {
 
 });
 
+router.delete("/delete_user_orm", async function (req, res) {
+    let id = req.query.id;
+    console.log("id:" + req.query.id);
+    getUser
+      .destroy({
+        where: {
+          id: id,
+        },
+      
+    }).then(() => {
+      res.send('Usuario  eliminado');
+  })
+  });
+
+
+  //update using Sequelize
+router.put("/update_user_orm", async function (req, res) {
+    let id = req.query.id;
+    let newData = req.query;
+    getUsers.findOne({
+        where: { id: id },
+    })
+        .then(User => {
+            User.update(newData)
+                .then(newUser => {
+                    res.send(newUser)
+                })
+        })
+  });
 export default router;
